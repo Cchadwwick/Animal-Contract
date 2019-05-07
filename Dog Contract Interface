@@ -1,0 +1,25 @@
+    
+pragma solidity >=0.4.0 <0.6.0;
+
+// should be same name as dog contract
+contract DogContract {
+        function addDog(string memory _name, uint _age) public payable returns(uint);
+        function getBalance() public view returns(uint);
+}
+
+contract ExternalContract {
+    // Interact with DogContract
+    DogContract dcInstance = DogContract(0x692a70D2e424a56D2C6C27aA97D1a86395877b3A); // address of dog contract
+    
+    function addExternalDog(string memory _name, uint _age) public payable returns(uint) {
+        return dcInstance.addDog.value(msg.value)(_name, _age);
+    }
+    
+    function getBalance() public view returns (uint) {
+        return dcInstance.getBalance();
+    }
+}
+
+//DEPLOY Dog Contract first from Dog Contract.sol
+//Then DEPLOY External Contract in this contract with address of Dog contract
+//Pay 1000 wei and add dog
